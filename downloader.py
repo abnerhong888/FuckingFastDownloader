@@ -105,7 +105,7 @@ def worker(pbar, info, config):
         pbar.set_postfix(ds=obj.get_speed(human=True), 
                          eta=seconds_to_hms(obj.get_eta(human=False)),
                          dl=obj.get_dl_size(human=True))
-        time.sleep(0.2) 
+        time.sleep(0.5) 
 
     pbar.close()
 
@@ -175,6 +175,7 @@ def main():
                 threads.append(t)
                 
                 cnt += 1
+            time.sleep(0.5)
             
         for t in threads:
             t.join()

@@ -138,9 +138,9 @@ def create_folder_by_name(config, file_name):
 def shutdownPC():
     system = platform.system()
     if system == "Windows":
-        os.system("shutdown /s /t 1")
+        os.system("shutdown /s /t 300")
     elif system == "Linux":
-        os.system("shutdown now")
+        os.system("shutdown +5")
     else:
         print("Unsupported operating system for shutdown.")
 

@@ -1,7 +1,5 @@
 # FunDownloader
 ## for downloading fuckingfast clould space
-```
-```
 # pip install
 ```bash
 python -m pip install --upgrade pip

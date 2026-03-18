@@ -4,6 +4,7 @@ import threading
 import time
 import sys
 import os
+import platform
 from tqdm import tqdm
 from pySmartDL import SmartDL
 
@@ -16,6 +17,7 @@ class Config:
     download_concurrent_limit=3
     download_threads=4
     download_speed_limit=0
+    shutdown_after_download=False
 
 def size_to_bytes(size_str):
     for i in range(len(size_str) - 1, -1, -1):
@@ -30,6 +32,17 @@ def size_to_bytes(size_str):
     if(unit in units):
         return int(float(number) * (1024 ** units.index(unit)))
     return int(size_str)
+
+def seconds_to_hms(seconds):
+    hours = int(seconds // 3600)
+    minutes = int((seconds % 3600) // 60)
+    seconds = int(seconds % 60)
+    if(hours > 0):
+        return f"{hours:02d}h:{minutes:02d}m:{seconds:02d}s"
+    elif(minutes > 0):
+        return f"{minutes:02d}m:{seconds:02d}s"
+    else:
+        return f"{seconds:02d}s"
 
 def read_config_yaml(file_path):
     data = read_yaml(file_path)
@@ -50,6 +63,9 @@ def read_config_yaml(file_path):
         config.download_speed_limit = size_to_bytes(value)
     else:
         config.download_speed_limit = value
+
+    config.shutdown_after_download = data.get('shutdown_after_download', False)
+
     return config
     
 def argparses():
@@ -85,8 +101,9 @@ def worker(pbar, info, config):
             break
 
         pbar.update(int(obj.get_progress()*100 - pbar.n))
-        pbar.set_postfix(speed=obj.get_speed(human=True), 
-                        #  eta=obj.get_eta(human=True),
+
+        pbar.set_postfix(ds=obj.get_speed(human=True), 
+                         eta=seconds_to_hms(obj.get_eta(human=False)),
                          dl=obj.get_dl_size(human=True))
         time.sleep(0.2) 
 
@@ -117,6 +134,15 @@ def create_folder_by_name(config, file_name):
 
     config.dest_dir = path
     return config
+
+def shutdownPC():
+    system = platform.system()
+    if system == "Windows":
+        os.system("shutdown /s /t 1")
+    elif system == "Linux":
+        os.system("shutdown now")
+    else:
+        print("Unsupported operating system for shutdown.")
 
 def main():
     global job_limits
@@ -152,6 +178,9 @@ def main():
             
         for t in threads:
             t.join()
+
+        if(config.shutdown_after_download):
+            shutdownPC()
 
     except KeyboardInterrupt: 
         interrupt = True

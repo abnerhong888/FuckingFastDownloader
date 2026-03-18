@@ -7,3 +7,4 @@ config:
     # max download speed in bytes per second (0 = unlimited)
     # example: 100KB, 1MB, 1GB, 2.2MB, 0, 1024
     download_speed_limit: 0
+    shutdown_after_download: false

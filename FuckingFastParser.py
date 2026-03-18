@@ -55,7 +55,7 @@ def write_to_yaml(names, downloadlinks):
 
 def argparses():
     parser = argparse.ArgumentParser()
-    parser.add_argument("-l", "--list", type=bool, action=argparse.BooleanOptionalAction, default=False, help="list to download")
+    parser.add_argument("-l", "--list", action=argparse.BooleanOptionalAction, default=False, help="list to download")
     parser.add_argument("-u", "--url", type=str, default=None, help="url page to download")
     args = parser.parse_args()
     return args

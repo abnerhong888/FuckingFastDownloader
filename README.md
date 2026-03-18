@@ -3,7 +3,7 @@
 # pip install
 ```bash
 python -m pip install --upgrade pip
-pip install requests selenium tqdm pyyaml pySmartDL argparse
+pip install requests selenium tqdm pyyaml pySmartDL
 ```
 
 # Usage

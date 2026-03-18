@@ -109,6 +109,15 @@ def read_linker_yaml(file_path):
     data = read_yaml(file_path)
     return data['data']
 
+def create_folder_by_name(config, file_name):
+    file_name = file_name.split('.')[0]
+    path = config.dest_dir + '/' + file_name
+    if not os.path.exists(path):
+        os.makedirs(path)
+
+    config.dest_dir = path
+    return config
+
 def main():
     global job_limits
     global interrupt
@@ -124,6 +133,7 @@ def main():
     try:
         queue = read_linker_yaml(args.link)
         config = read_config_yaml(args.cfg)
+        config = create_folder_by_name(config, queue[0]['name'])
 
         dl_limit = config.download_concurrent_limit
 

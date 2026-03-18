@@ -1,4 +1,4 @@
-# FunDownloader
+# FuckingFast Downloader
 ## for downloading fuckingfast clould space
 # pip install
 ```bash

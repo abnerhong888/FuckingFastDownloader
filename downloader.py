@@ -107,6 +107,12 @@ def worker(pbar, info, config):
                          dl=obj.get_dl_size(human=True))
         time.sleep(0.5) 
 
+    if(interrupt == False):
+        pbar.set_postfix(ds=obj.get_speed(human=True), 
+                         eta=seconds_to_hms(obj.get_eta(human=False)),
+                         dl=obj.get_dl_size(human=True))
+        pbar.update(int(100 - pbar.n))
+
     pbar.close()
 
     with lock:

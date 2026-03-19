@@ -136,7 +136,7 @@ def create_folder_by_name(config, file_name):
     file_name = file_name.split('.')[0]
     path = config.dest_dir + '/' + file_name
     if not os.path.exists(path):
-        os.makedirs(path)
+        os.makedirs(path, exist_ok=True)
 
     config.dest_dir = path
     return config

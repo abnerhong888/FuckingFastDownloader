@@ -117,6 +117,7 @@ def worker(pbar, info, config):
 
     with lock:
         job_limits -= 1
+        
 def read_yaml(file_path):
     if not os.path.exists(file_path):
         raise FileNotFoundError(f"YAML file not found: {file_path}")
